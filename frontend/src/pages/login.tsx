@@ -1,28 +1,39 @@
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+// src/pages/login.tsx
+import { GalleryVerticalEnd } from "lucide-react"
+import { LoginForm } from "@/components/login-form"
+import type { NextPageWithLayout } from "@/types/next" // Optional, explained below
 
-export default function LoginPage() {
-  const loginWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const loginWithEmail = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, "email@example.com", "password");
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+const LoginPage: NextPageWithLayout = () => {
   return (
-    <div>
-      <button onClick={loginWithGoogle}>Login with Google</button>
-      <button onClick={loginWithEmail}>Login with Email</button>
+    <div className="grid min-h-svh lg:grid-cols-2">
+      <div className="flex flex-col gap-4 p-6 md:p-10">
+        <div className="flex justify-center gap-2 md:justify-start">
+          <a href="#" className="flex items-center gap-2 font-medium">
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <GalleryVerticalEnd className="size-4" />
+            </div>
+            Nexcraft
+          </a>
+        </div>
+        <div className="flex flex-1 items-center justify-center">
+          <div className="w-full max-w-xs">
+            <LoginForm className="" />
+          </div>
+        </div>
+      </div>
+
+      <div className="relative hidden bg-muted lg:block">
+        <img
+          src="https://images.pexels.com/photos/634548/pexels-photo-634548.jpeg?auto=compress&cs=tinysrgb&w=1200"
+          alt="Login Visual"
+          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        />
+      </div>
     </div>
-  );
+  )
 }
+
+// Disable layout for login page
+LoginPage.getLayout = (page) => page
+
+export default LoginPage

@@ -1,19 +1,17 @@
+// src/users/users.service.ts
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
+import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private repo: Repository<User>) {}
+  constructor(private usersRepository: UsersRepository) {}
 
-  create(dto: CreateUserDto) {
-    const user = this.repo.create(dto);
-    return this.repo.save(user);
+  async create(dto: CreateUserDto) {
+    return this.usersRepository.create(dto);
   }
 
-  findByFirebaseUid(uid: string) {
-    return this.repo.findOne({ where: { firebaseUid: uid } });
+  async findByFirebaseUid(firebaseUid: string) {
+    return this.usersRepository.findByFirebaseUid(firebaseUid);
   }
 }
